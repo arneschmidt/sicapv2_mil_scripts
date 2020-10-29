@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--input_dir", "-i", type=str, default="../patch_samples")
+parser.add_argument("--input_dir", "-i", type=str, default="../patches")
 parser.add_argument("--output_dir", "-o", type=str, default="../output/")
 parser.add_argument("--debug", "-d", action='store_true')
 parser.add_argument("--visualize", "-v", action='store_true')
@@ -23,7 +23,10 @@ os.makedirs(args.output_dir, exist_ok=True)
 if args.debug:
     os.makedirs(args.output_dir + 'white_images', exist_ok=True)
 
+number_of_files = len(glob.glob(args.input_dir + "/*.jpg"))
+print('number of files: ', number_of_files)
 for file in glob.glob(args.input_dir + "/*.jpg"):
+    print(file)
     image = cv2.imread(file)
     mask = cv2.inRange(image, grey, white)
     if args.visualize:
