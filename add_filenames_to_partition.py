@@ -55,7 +55,7 @@ if __name__ == "__main__":
     parser.add_argument("--filenames_path", "-f", type=str, default="filenames.txt")
     args = parser.parse_args()
 
-    filenames_path = 'filenames_sample.txt'
+    filenames_path = args.filenames_path
     input_dir = args.input_dir
     output_dir = args.output_dir
     split_paths = ['Validation/Val1/',
