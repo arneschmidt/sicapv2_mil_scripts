@@ -50,9 +50,9 @@ def add_filenames_to_dataframe(dataframe, all_filenames):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_dir", "-i", type=str, default="partition/")
-    parser.add_argument("--output_dir", "-o", type=str, default="partition_mil/")
-    parser.add_argument("--filenames_path", "-f", type=str, default="filenames_sample.txt")
+    parser.add_argument("--input_dir", "-i", type=str, default="../partition/")
+    parser.add_argument("--output_dir", "-o", type=str, default="../partition_mil/")
+    parser.add_argument("--filenames_path", "-f", type=str, default="filenames.txt")
     args = parser.parse_args()
 
     filenames_path = 'filenames_sample.txt'
