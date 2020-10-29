@@ -21,9 +21,10 @@ def check_duplicates(dataframe):
 
 def add_filenames_to_dataframe(dataframe, all_filenames):
     all_filenames_copy = all_filenames.copy()[0] # copy because later we delete entries
+    dataframe.sort_values(by='image_name')
     wsi_names = dataframe['image_name'].str.split('_').str[0]
     dataframe['unlabeled'] = 0
-
+    num_wsi = 0
     original_dataframe_length = len(dataframe['image_name'])
     for i in range(original_dataframe_length):
         patch_name =  dataframe['image_name'][i]
@@ -35,11 +36,12 @@ def add_filenames_to_dataframe(dataframe, all_filenames):
         next_wsi_name = ('last_wsi' if i == original_dataframe_length-1 else wsi_names[i+1])
         # going through all patches in dataframe, add the ones that are additional in all_filenames
         if wsi_name != next_wsi_name:
+            num_wsi = num_wsi+1
             for j in range(len(all_filenames_copy)):
                 if all_filenames_copy[j].split('_')[0] == wsi_name:
                     dataframe = dataframe.append({'image_name': all_filenames_copy[j],
                                       'NC':0, 'G3':0, 'G4':0, 'G5':0, 'unlabeled':1}, ignore_index=True)
-                    # print('Added unlabeled patch: ' + all_filenames_copy[j])
+    print('Number of WSIs: ' + str(num_wsi))
     dataframe.sort_values(by='image_name')
     check_duplicates(dataframe)
 
@@ -78,5 +80,5 @@ if __name__ == "__main__":
             print('Added total number of unlabeled images: ' + str(no_images_after - no_images_before))
             output_split_dir = output_dir + split_path
             os.makedirs(output_split_dir, exist_ok=True)
-            completed_dataframe.to_csv(output_split_dir + split_name)
+            completed_dataframe.to_csv(output_split_dir + split_name, index=False)
 
