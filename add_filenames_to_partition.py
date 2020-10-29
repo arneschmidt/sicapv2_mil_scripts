@@ -21,7 +21,7 @@ def check_duplicates(dataframe):
 
 def add_filenames_to_dataframe(dataframe, all_filenames):
     all_filenames_copy = all_filenames.copy()[0] # copy because later we delete entries
-    dataframe.sort_values(by='image_name')
+    dataframe.sort_values(by='image_name', inplace=True)
     wsi_names = dataframe['image_name'].str.split('_').str[0]
     dataframe['unlabeled'] = 0
     num_wsi = 0
@@ -40,9 +40,9 @@ def add_filenames_to_dataframe(dataframe, all_filenames):
             for j in range(len(all_filenames_copy)):
                 if all_filenames_copy[j].split('_')[0] == wsi_name:
                     dataframe = dataframe.append({'image_name': all_filenames_copy[j],
-                                      'NC':0, 'G3':0, 'G4':0, 'G5':0, 'unlabeled':1}, ignore_index=True)
+                                      'NC':0, 'G3':0, 'G4':0, 'G5':0, 'G4C':0, 'unlabeled':1}, ignore_index=True)
     print('Number of WSIs: ' + str(num_wsi))
-    dataframe.sort_values(by='image_name')
+    dataframe.sort_values(by='image_name', inplace=True)
     check_duplicates(dataframe)
 
     return dataframe
@@ -64,21 +64,21 @@ if __name__ == "__main__":
                    'Validation/Val4/',
                    'Test/']
 
-    input_split_paths =  [input_dir + s for s in split_paths]
 
     split_names = ['Train.xlsx', 'Test.xlsx']
 
     all_filenames = pd.read_csv(filenames_path, header=None)
 
-    for split_path in input_split_paths:
+    for split_path in split_paths:
+        input_split_dir = input_dir + split_path
+        output_split_dir = output_dir + split_path
         for split_name in split_names:
-            print('Working on file: ', split_path+split_name)
-            dataframe = pd.read_excel(split_path + split_name)
+            print('Working on file: ', input_split_dir + split_name)
+            dataframe = pd.read_excel(input_split_dir + split_name)
             no_images_before = len(dataframe['image_name'])
             completed_dataframe = add_filenames_to_dataframe(dataframe, all_filenames)
             no_images_after = len(completed_dataframe['image_name'])
             print('Added total number of unlabeled images: ' + str(no_images_after - no_images_before))
-            output_split_dir = output_dir + split_path
             os.makedirs(output_split_dir, exist_ok=True)
             completed_dataframe.to_csv(output_split_dir + split_name, index=False)
 
