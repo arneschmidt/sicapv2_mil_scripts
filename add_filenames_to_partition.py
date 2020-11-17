@@ -7,7 +7,8 @@ def delete_patch_from_filenames(patch_name, all_filenames_copy):
     # drop this patch from all
     for j in range(len(all_filenames_copy)):
         if all_filenames_copy[j] == patch_name:
-            all_filenames_copy.drop(index=j)
+            all_filenames_copy.drop(index=j, inplace=True)
+            all_filenames_copy.reset_index(inplace=True)
             break
         if j == len(all_filenames_copy):
             raise Exception("Patch name not found in images: ", patch_name)
