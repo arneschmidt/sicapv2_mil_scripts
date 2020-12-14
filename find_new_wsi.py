@@ -23,7 +23,7 @@ def main(args):
     for wsi in added_wsi_filenames:
         for file in os.listdir(in_wsi_dir):
             if file.startswith(wsi + '_'):
-                copy2(os.path.join(in_wsi_dir, file), os.path.join(out_wsi_dir, wsi)) # TODO: add suffix from source filename
+                copy2(os.path.join(in_wsi_dir, file), os.path.join(out_wsi_dir, wsi + '.jpg')) # TODO: add suffix from source filename
 
     for row in range(len(added_wsi)):
         labels = []

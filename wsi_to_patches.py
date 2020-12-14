@@ -68,22 +68,16 @@ def main(args):
     df = pd.DataFrame(columns=['image_name', 'NC', 'G3', 'G4', 'G5', 'unlabeled'])
 
     for wsi_path in wsi_list:
-        print('Read WSI ' + wsi_path)
+        print('Slice WSI ' + wsi_path)
         wsi = cv2.imread(wsi_path)
         wsi_df = slice_image(wsi, wsi_path, args.patch_resolution, image_dir)
         df = pd.concat([df, wsi_df])
-    df.to_excel(os.path.join(args.output_dir,"wsi_labels.xlsx"), index=False)
-
-
-
-
-
-
+    df.to_excel(os.path.join(args.output_dir,"Train.xlsx"), index=False)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image_dir", "-i", type=str, default="./slides")
+    parser.add_argument("--image_dir", "-i", type=str, default="/home/arne/datasets/SICAPv2_add_wsi/slides")
     parser.add_argument("--wsi_list", "-w", type=str, default="all")
     parser.add_argument("--output_dir", "-o", type=str, default="./output/")
     parser.add_argument("--patch_overlap", "-po", action='store_true')
