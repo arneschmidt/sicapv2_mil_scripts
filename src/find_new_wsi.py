@@ -8,9 +8,9 @@ def main(args):
     old_df = pd.read_excel(args.old_wsi_df)
     new_df = pd.read_excel(args.new_wsi_df)
     in_dir = args.input_dataset_dir
-    in_wsi_dir = os.path.join(in_dir,'slides')
+    in_wsi_dir = os.path.join(in_dir, '../slides')
     out_dir = args.output_dataset_dir
-    out_wsi_dir = os.path.join(out_dir, 'slides')
+    out_wsi_dir = os.path.join(out_dir, '../slides')
     os.makedirs(out_wsi_dir, exist_ok=True)
 
     added_wsi = new_df[~new_df['slide_name'].isin(old_df['slide_id'])]
