@@ -22,4 +22,4 @@ for path in sample_paths:
     out_path = os.path.join(args.output, filename)
     copy2(path, out_path)
 
-print("Number of copied files: " + str(N))
+print("Number of copied files: " + str(args.number))
